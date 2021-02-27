@@ -7,7 +7,7 @@ import UserRepository from '../repositories/UserRepository';
 import SendMailService from '../services/SendMailService';
 import AppError from '../errors/AppError';
 
-class SendEmailControler {
+class SendEmailController {
     async execute(request: Request, response: Response) {
         const { email, survey_id } = request.body;
 
@@ -24,7 +24,7 @@ class SendEmailControler {
         const survey = await surveysRepository.findOne({ id: survey_id })
 
         if (!survey) {
-            throw new AppError("Surveys does not exists")
+            throw new AppError("Surveys does not exists");
         }
 
         const npsPath = resolve(__dirname, "..", "views", "emails", "npsMail.hbs");
@@ -67,4 +67,4 @@ class SendEmailControler {
     }
 }
 
-export default new SendEmailControler();
+export default new SendEmailController();

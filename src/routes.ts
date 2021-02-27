@@ -22,6 +22,8 @@ route.delete("/surveys/:id", SurveysController.delete);
 //others routes
 route.post("/sendMail", SendMailController.execute);
 route.get("/answers/:value", AnswerController.execute);
+
+//NPS query
 route.get("/nps/:survey_id", NPSController.execute);
 
 
