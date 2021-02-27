@@ -1,4 +1,4 @@
-import SurveyUser from "../models/SurveyUser";
+import SurveyUser from "../../models/SurveyUser";
 import surveyView from "./surveyView";
 import userView from "./userView";
 

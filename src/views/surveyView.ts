@@ -1,4 +1,4 @@
-import Survey from "../models/Survey";
+import Survey from "../../models/Survey";
 
 const surveyView = {
     render(survey: Survey) {

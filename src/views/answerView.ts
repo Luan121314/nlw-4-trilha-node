@@ -1,4 +1,4 @@
-import SurveyUser from "../models/SurveyUser";
+import SurveyUser from "../../models/SurveyUser";
 
 const answerView = {
     render(value: SurveyUser){

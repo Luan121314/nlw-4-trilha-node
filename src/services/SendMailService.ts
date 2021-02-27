@@ -1,24 +1,24 @@
-import nodemailer, { Transporter } from 'nodemailer';
-import { resolve } from 'path';
-import handlebars from 'handlebars';
 import fs from 'fs';
+import handlebars from 'handlebars';
+import nodemailer, { Transporter } from 'nodemailer';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
+
+const options:SMTPTransport.Options = {
+    host: "smtp.sendgrid.net",
+    port: 25,
+    secure: false,
+    auth: {
+        user: "apikey",
+        pass: process.env.PASS_SENDGRID
+    }
+}   
+
 
 class SendMailService {
     private client: Transporter
     constructor() {
-        nodemailer.createTestAccount().then(account => {
-            const transporter = nodemailer.createTransport({
-                host: account.smtp.host,
-                port: account.smtp.port,
-                secure: account.smtp.secure,
-                auth: {
-                    user: account.user,
-                    pass: account.pass
-                }
-            });
-
-            this.client = transporter;
-        })
+        const transporter = nodemailer.createTransport(options);
+        this.client = transporter;
     }
 
     async execute(to: string, subject: string, variables: object, path: string) {
@@ -33,10 +33,9 @@ class SendMailService {
             to,
             subject,
             html,
-            from: "NPS <noreplay@nps.com.br>"
+            from: "luanstaner.apps@gmail.com"
         })
         console.log("Message sent: %s", message.messageId);
-        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(message));
 
 
     }
