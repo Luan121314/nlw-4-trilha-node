@@ -22,7 +22,7 @@ class AnswerController {
         surveyUser.value = Number(value);
 
         await surveysUsersRepository.save(surveyUser);
-        return response.status(200).json(answerView.render(surveyUser));
+        return response.status(204).json(answerView.render(surveyUser));
     }
 }
 export default new AnswerController();
