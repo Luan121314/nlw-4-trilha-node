@@ -9,12 +9,10 @@ import UserController from './controllers/UserController';
 const route = Router();
 
 
-route.get("/users", (request:Request, response:Response)=>{
-    return response.send("Hello nlw")
-})
-route.post("/users", UserController.create)
-route.post("/surveys", SurveysController.create)
-route.get("/surveys", SurveysController.show)
+route.get("/users", UserController.index);
+route.post("/users", UserController.create);
+route.post("/surveys", SurveysController.create);
+route.get("/surveys", SurveysController.show);
 route.post("/sendMail", SendMailController.execute);
 route.get("/answers/:value", AnswerController.execute);
 route.get("/nps/:survey_id", NPSController.execute);
