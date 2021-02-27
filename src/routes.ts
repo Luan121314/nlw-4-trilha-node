@@ -8,12 +8,17 @@ import UserController from './controllers/UserController';
 
 const route = Router();
 
-
+//Users routes
 route.get("/users", UserController.index);
 route.post("/users", UserController.create);
 route.delete("/users/:id", UserController.delete);
+
+//Surveys routes
 route.post("/surveys", SurveysController.create);
+route.delete("/surveys/:id", SurveysController.delete);
 route.get("/surveys", SurveysController.show);
+
+//others routes
 route.post("/sendMail", SendMailController.execute);
 route.get("/answers/:value", AnswerController.execute);
 route.get("/nps/:survey_id", NPSController.execute);
