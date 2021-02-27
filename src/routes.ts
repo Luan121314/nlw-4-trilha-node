@@ -1,4 +1,4 @@
-import {Request, Response, Router} from 'express'
+import {Router} from 'express'
 import AnswerController from './controllers/AnswerController';
 import NPSController from './controllers/NPSController';
 import SendMailController from './controllers/SendMailController';
@@ -11,6 +11,7 @@ const route = Router();
 
 route.get("/users", UserController.index);
 route.post("/users", UserController.create);
+route.delete("/users/:id", UserController.delete);
 route.post("/surveys", SurveysController.create);
 route.get("/surveys", SurveysController.show);
 route.post("/sendMail", SendMailController.execute);

@@ -17,8 +17,8 @@ class UserController {
                 abortEarly: false
             })
         } catch (error) {
-           throw new AppError(error)
-            
+            throw new AppError(error)
+
         }
 
 
@@ -35,10 +35,31 @@ class UserController {
         await userRepository.save(user)
         return response.status(201).json(user)
     }
-    async index(request: Request, response:Response){
+    async index(request: Request, response: Response) {
         const userRepository = getCustomRepository(UserRepository);
         const users = await userRepository.find();
         return response.json(users);
+    }
+    async delete(request: Request, response: Response) {
+        const { id } = request.params;
+        const schema = yup.object().shape({
+            id: yup.string().uuid().required()
+        })
+        try {
+            await schema.validate(request.params)
+        } catch (error) {
+            throw new AppError(error)
+        }
+
+        const userRepository = getCustomRepository(UserRepository);
+        const isUserExists = await userRepository.findOne({ id });
+
+        if (!isUserExists) {
+            throw new AppError("User not exists");
+        }
+
+        await userRepository.delete({ id })
+        return response.sendStatus(204);
     }
 }
 
