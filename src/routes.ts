@@ -15,8 +15,9 @@ route.delete("/users/:id", UserController.delete);
 
 //Surveys routes
 route.post("/surveys", SurveysController.create);
-route.delete("/surveys/:id", SurveysController.delete);
 route.get("/surveys", SurveysController.show);
+route.put("/surveys/:id", SurveysController.update);
+route.delete("/surveys/:id", SurveysController.delete);
 
 //others routes
 route.post("/sendMail", SendMailController.execute);

@@ -49,6 +49,31 @@ class SurveysController {
         await surveyRepository.delete({ id })
         return response.sendStatus(204);
     }
+    async update(request: Request, response: Response) {
+
+        const { id } = request.params;
+        const {title, description} = request.body
+        const schema = yup.object().shape({
+            id: yup.string().uuid().required(),
+            title: yup.string().required(),
+            description: yup.string().required()
+        })
+        try {
+            await schema.validate({id, title, description})
+        } catch (error) {
+            throw new AppError(error)
+        }
+
+        const surveyRepository = getCustomRepository(SurveysRepository);
+        const isSurveyExists = await surveyRepository.findOne({ id });
+
+        if (!isSurveyExists) {
+            throw new AppError("Survey not exists");
+        }
+
+        await surveyRepository.save({ id , title, description})
+        return response.sendStatus(204);
+    }
 }
 
 export default new SurveysController();
