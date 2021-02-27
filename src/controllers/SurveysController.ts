@@ -3,6 +3,8 @@ import { getCustomRepository } from 'typeorm';
 import SurveysRepository from '../repositories/SurveysRepository';
 import * as yup from 'yup';
 import AppError from '../errors/AppError';
+import SurveysView from '../views/surveyView';
+import surveyView from '../views/surveyView';
 
 class SurveysController {
     async create(request: Request, response: Response) {
@@ -17,13 +19,13 @@ class SurveysController {
 
         await surveysRepository.save(survey);
 
-        return response.status(201).json(survey)
+        return response.status(201).json(SurveysView.render(survey))
     }
 
     async show(request: Request, response: Response) {
         const surveysRepository = getCustomRepository(SurveysRepository);
         const allSurveys = await surveysRepository.find();
-        return response.json(allSurveys)
+        return response.json(surveyView.renderMany(allSurveys))
 
     }
 

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
 import SurveysUsersRepository from "../repositories/SurveysUsersRepository";
 import AppError from "../errors/AppError";
+import answerView from "../views/answerView";
 
 class AnswerController {
     async execute(request: Request, response: Response) {
@@ -21,7 +22,7 @@ class AnswerController {
         surveyUser.value = Number(value);
 
         await surveysUsersRepository.save(surveyUser);
-        return response.status(200).json(surveyUser);
+        return response.status(200).json(answerView.render(surveyUser));
     }
 }
 export default new AnswerController();

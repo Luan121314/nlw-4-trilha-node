@@ -3,6 +3,7 @@ import { getCustomRepository } from 'typeorm';
 import UserRepository from '../repositories/UserRepository';
 import * as yup from 'yup';
 import AppError from '../errors/AppError';
+import UserView from '../views/userView';
 
 class UserController {
     async create(request: Request, response: Response) {
@@ -33,12 +34,12 @@ class UserController {
             name, email
         })
         await userRepository.save(user)
-        return response.status(201).json(user)
+        return response.status(201).json(UserView.render(user))
     }
     async index(request: Request, response: Response) {
         const userRepository = getCustomRepository(UserRepository);
         const users = await userRepository.find();
-        return response.json(users);
+        return response.json(UserView.renderMany(users));
     }
     async delete(request: Request, response: Response) {
         const { id } = request.params;

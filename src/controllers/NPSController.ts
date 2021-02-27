@@ -1,6 +1,7 @@
 import { Response, Request } from "express";
 import { getCustomRepository, IsNull, Not } from "typeorm";
 import SurveysUsersRepository from "../repositories/SurveysUsersRepository";
+import NPSView from "../views/NPSView";
 
 /**
  * 
@@ -42,15 +43,11 @@ class NPSController {
 
         const totalAnswers = surveyUsers.length;
 
-        const calculate = Number(((promoters - detractor) / totalAnswers) * 100).toFixed(2)
+        const nps = Number(((promoters - detractor) / totalAnswers) * 100)
 
-        return response.json({
-            detractor,
-            promoters,
-            passive,
-            totalAnswers: totalAnswers,
-            nps: calculate
-        })
+        return response.json(NPSView.render(
+            { detractor, passive, promoters, totalAnswers, nps }
+        ))
     }
 }
 export default new NPSController()

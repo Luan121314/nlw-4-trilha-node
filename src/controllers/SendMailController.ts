@@ -6,6 +6,7 @@ import SurveysUsersRepository from '../repositories/SurveysUsersRepository';
 import UserRepository from '../repositories/UserRepository';
 import SendMailService from '../services/SendMailService';
 import AppError from '../errors/AppError';
+import surveyUserView from '../views/surveyUserView';
 
 class SendEmailController {
     async execute(request: Request, response: Response) {
@@ -49,7 +50,7 @@ class SendEmailController {
         if (surveyUserAlreadyExists) {
             variables.id = surveyUserAlreadyExists.id
             await SendMailService.execute(email, survey.title, variables, npsPath);
-            return response.json(surveyUserAlreadyExists)
+            return response.json(surveyUserView.render(surveyUserAlreadyExists))
         }
 
         const surveyUser = surveysUsersRepository.create({
@@ -57,13 +58,13 @@ class SendEmailController {
             survey_id: survey_id
         })
 
-        await surveysUsersRepository.save(surveyUser);
+        const surveyUserCreated = await surveysUsersRepository.save(surveyUser);
 
-        variables.id = surveyUser.id
+        variables.id = surveyUser.id;
 
-        await SendMailService.execute(email, survey.title, variables, npsPath)
+        await SendMailService.execute(email, survey.title, variables, npsPath);
 
-        return response.status(201).json(surveyUser);
+        return response.status(201).json(surveyUserView.render(surveyUserCreated));
     }
 }
 
